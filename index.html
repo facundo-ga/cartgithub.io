@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Carta para mamá 💌</title>
+  <!-- Música -->
+  <audio id="musica" src="Primaveras.mp3" autoplay loop></audio>
+  <style>
+    @font-face {
+      font-family: "writingSnippetFont";
+      src: url('https://assets.codepen.io/1633505/Novecentosanswide-Light.otf');
+    }
+
+    html,
+    body {
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      background: #fffaf7;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+      transition: all 0.4s ease;
+    }
+
+    #particles {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 99;
+      pointer-events: none;
+    }
+
+    .envelopeHolder {
+      text-align: justify;
+      width: 90%;
+      max-width: 500px;
+      aspect-ratio: 500 / 671;
+      overflow: hidden;
+      background-image: url('https://assets.codepen.io/1633505/specialLetter.png');
+      background-size: cover;
+      background-position: center;
+      position: relative;
+      z-index: 100;
+      transition: transform 0.4s ease;
+    }
+
+    .insideLetterHolder {
+      position: absolute;
+      background-image: url('https://assets.codepen.io/1633505/insidePaper.png');
+      background-size: cover;
+      bottom: 28%;
+      width: 85%;
+      height: 30%;
+      left: 7.5%;
+      transition: all 0.9s ease;
+      overflow: hidden;
+      border-radius: 6px;
+    }
+
+    .topLetterHolder {
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      height: 54%;
+      background-image: url('https://assets.codepen.io/1633505/topLetterHolder.png');
+      background-size: cover;
+      background-position: center;
+    }
+
+    .envelopeHolder:hover .insideLetterHolder,
+    .envelopeHolder:active .insideLetterHolder {
+      height: 83%;
+      bottom: 1.5%;
+      z-index: 9;
+    }
+
+    .insideLetterScroll {
+      font-family: 'writingSnippetFont', sans-serif;
+      text-align: justify;
+      font-size: 11px;
+      margin: 6% 7%;
+      line-height: 1.8;
+      height: 90%;
+      overflow-y: auto;
+      color: #222;
+    }
+
+    .insideLetterScroll strong {
+      font-weight: bold;
+    }
+
+    @media (max-width: 600px) {
+      .insideLetterScroll {
+        font-size: 12px;
+        line-height: 1.7;
+      }
+
+      .insideLetterHolder {
+        bottom: 30%;
+        width: 86%;
+        height: 32%;
+      }
+
+      .envelopeHolder:hover .insideLetterHolder,
+      .envelopeHolder:active .insideLetterHolder {
+        height: 85%;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <canvas id="particles"></canvas>
+
+  <div id="carta" class="envelopeHolder">
+    <div class="insideLetterHolder">
+      <div class="insideLetterScroll">
+        <p style="font-size:20px; font-weight:bold; margin-bottom:12px;">Para vos, mamá, en tu día…</p>
+
+        <p>Hoy te escribimos con el alma llena de amor y de recuerdos.  
+          No estás físicamente, pero estás en cada rincón de nuestra vida.  
+          En las cosas simples, en los consejos que aún resuenan, en el modo en que aprendimos a querer y a enfrentar el mundo.  
+          Aunque no podamos abrazarte, te sentimos más cerca que nunca.</p>
+
+        <p>Gracias, mamá, por todo lo que fuiste, por todo lo que diste sin medida.  
+          Por tus manos que nos cuidaron, por tu voz que nos calmaba, por tu risa que llenaba la casa de alegría.  
+          Gracias por tus desvelos, por tus sacrificios silenciosos, por tu ejemplo de fortaleza, por enseñarnos a ser personas nobles y valientes.  
+          Hoy entendemos que el amor más grande del mundo fue el tuyo.</p>
+
+        <p>Tu ausencia se siente, mamá. Hay días en que duele más que otros, pero incluso en el dolor hay algo hermoso: el orgullo de haberte tenido.  
+          Porque todo lo bueno que somos tiene tu huella.  
+          Cuando la vida se complica, recordamos tu manera de seguir adelante, y encontramos en tu recuerdo la fuerza para no rendirnos.</p>
+
+        <p>Nos enseñaste que amar es dar, que la familia es el refugio y que el cariño no muere, solo cambia de forma.  
+          Y así te sentimos: en el viento suave, en la música que te gustaba, en los abrazos que damos en tu nombre.  
+          Vivís en nosotros, mamá, en lo que somos y en lo que soñamos ser.</p>
+
+        <p><strong>Feliz Día de la Madre, mamá.</strong><br>
+          Te amamos con la misma intensidad de siempre.  
+          Porque no existe distancia capaz de apagar lo que dejaste en nosotros.  
+          Estás y estarás por siempre en cada paso, en cada sonrisa, en cada logro.  
+          Sos nuestro amor eterno, nuestro faro, nuestra razón de seguir con esperanza.</p>
+
+        <p style="margin-top:18px; font-style:italic;">
+          Con todo nuestro amor y gratitud,<br>
+          <strong>Tus hijos Sandra y Facu ❤️</strong>
+        </p>
+      </div>
+    </div>
+    <div class="topLetterHolder"></div>
+  </div>
+   <audio id="musica" src="Primaveras.mp3" autoplay loop controls></audio>
+  <script>
+    // Partículas animadas
+    const canvas = document.getElementById("particles");
+    const ctx = canvas.getContext("2d");
+    let particles = [];
+    const num = 70;
+
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+
+    function createParticles() {
+      particles = [];
+      for (let i = 0; i < num; i++) {
+        particles.push({
+          x: Math.random() * canvas.width,
+          y: Math.random() * canvas.height,
+          size: Math.random() * 3 + 1,
+          speedY: Math.random() * 0.6 + 0.3,
+          alpha: Math.random() * 0.6 + 0.2,
+          color: `rgba(255, ${180 + Math.random() * 60}, ${180 + Math.random() * 60},`
+        });
+      }
+    }
+
+    function animateParticles() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      for (let p of particles) {
+        ctx.beginPath();
+        ctx.fillStyle = p.color + p.alpha + ")";
+        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+        ctx.fill();
+        p.y += p.speedY;
+        if (p.y > canvas.height) p.y = -10;
+      }
+      requestAnimationFrame(animateParticles);
+    }
+
+    window.addEventListener("resize", () => {
+      resizeCanvas();
+      createParticles();
+    });
+
+    window.addEventListener("orientationchange", () => {
+      setTimeout(() => {
+        resizeCanvas();
+        createParticles();
+      }, 500);
+    });
+
+    resizeCanvas();
+    createParticles();
+    animateParticles();
+  </script>
+
+</body>
+</html>
